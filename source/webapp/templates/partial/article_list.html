@@ -11,7 +11,7 @@
 {% endif %}
         {% for article in articles %}
             <div class="box">
-                <h3><a href="{% url "webapp:article_view" article.pk %}">{{ article.title }}</a></h3>
+                <h3><a class="article_view" href="{% url "webapp:article_view" article.pk %}">{{ article.title }}</a></h3>
                 {% if show_mass_delete %}
                     <p>
                         <label for="selected_articles-{{ article.pk }}">Select:</label>

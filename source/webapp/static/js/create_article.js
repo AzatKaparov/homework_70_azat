@@ -5,8 +5,8 @@ async function addArticle(event) {
         text: document.getElementById('id_text').value
     });
     let data = await response.json();
-    console.log(data.pk);
-    window.location.href = `${BASE_URL}article/${data.pk}/`;
+    console.log(data.id);
+    window.location.href = `${BASE_URL}article/${data.id}/`;
 }
 
 

@@ -32,3 +32,38 @@ class ArticleCreateView(View):
             response = JsonResponse(slr.errors, safe=False)
             response.status_code = 400
             return response
+
+
+class DetailView(View):
+    def get(self, request, *args, **kwargs):
+        article = Article.objects.get(pk=kwargs['pk'])
+        slr = ArticleSerializer(article, many=False)
+        return JsonResponse(slr.data, safe=False)
+
+
+class UpdateView(View):
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+        article = Article.objects.get(pk=kwargs['pk'])
+        slr = ArticleSerializer(data=data, instance=article)
+        if slr.is_valid():
+            article = slr.save()
+            return JsonResponse(slr.data, safe=False)
+        else:
+            response = JsonResponse(slr.errors, safe=False)
+            response.status_code = 400
+            return response
+
+
+class DeleteView(View):
+    def get(self, request, *args, **kwargs):
+        data = Article.objects.get(pk=kwargs['pk'])
+        slr = ArticleSerializer(data=data)
+        pk = slr.data['id']
+        if slr.is_valid():
+            data.delete()
+            return HttpResponse(pk)
+        else:
+            response = JsonResponse(slr.errors, safe=False)
+            response.status_code = 400
+            return response
